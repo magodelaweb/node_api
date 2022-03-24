@@ -14,7 +14,7 @@ const options={
 };
 if (config.isProd) {
   options.ssl={
-    rejectUnauthorized=false
+    rejectUnauthorized: false
   }
 }
 var sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPassword, options);

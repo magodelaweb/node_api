@@ -2,8 +2,7 @@ const { Sequelize } = require('sequelize');
 
 const { config } = require('./../config/config');
 const setupModels = require('./../db/models');
-
-var sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPassword, {
+const options={
   host: config.dbHost,
   dialect: 'mysql',
   logging: true,
@@ -12,7 +11,13 @@ var sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPassword, {
     min: 0,
     idle: 10000
   }
-});
+};
+if (config.isProd) {
+  options.ssl={
+    rejectUnauthorized=false
+  }
+}
+var sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPassword, options);
 
 setupModels(sequelize);
 sequelize.sync();
